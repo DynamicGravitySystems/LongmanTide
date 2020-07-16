@@ -3,10 +3,10 @@
 import os
 from setuptools import setup
 
-__version__ = '0.3.0-beta.1'
+__version__ = '0.4.0-beta.1'
 requirements = [
-    'numpy >= 1.14.2',
-    'pandas >= 0.22.0'
+    'numpy == 1.18.5',
+    'pandas == 1.0.4'
 ]
 
 
@@ -37,7 +37,7 @@ setup(
     url='https://github.com/bradyzp/LongmanTide/',
     download_url='https://github.com/bradyzp/LongmanTide',
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Intended Audience :: Science/Research',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',

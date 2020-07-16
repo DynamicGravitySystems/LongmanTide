@@ -12,7 +12,7 @@ __all__ = ['calculate_julian_century', 'solve_longman_tide', 'solve_longman_tide
 
 
 """
-Longman Earth Tide Calculator - Adopted from John Leeman's implementation of 
+Longman Earth Tide Calculator - Adapted from John Leeman's implementation of 
 I. M. Longman's earth tide calculations (see references below) 
 
 Parts of this program (c) 2017 John Leeman
@@ -22,7 +22,7 @@ Licensed under the MIT License, see LICENSE file for full text
 
 References
 ----------
-I.M. Longman "Forumlas for Computing the Tidal Accelerations Due to the Moon 
+I.M. Longman "Formulas for Computing the Tidal Accelerations Due to the Moon 
 and the Sun" Journal of Geophysical Research, vol. 64, no. 12, 1959, pp. 2351-2355
 
 P. Schureman "Manual of harmonic analysis and prediction of tides" U.S. Coast and Geodetic Survey, 1958
@@ -53,7 +53,7 @@ c1 = 1.495e13  # Mean distance between centers of the earth and sun in cm
 h2 = 0.612  # Love parameter  # See: https://en.wikipedia.org/wiki/Love_number
 k2 = 0.303  # Love parameter  # See Also: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4599447/
 love = 1 + h2 - 1.5 * k2
-a = 6.378270e8  # Earth's equitorial radius in cm
+a = 6.378270e8  # Earth's equatorial radius in cm
 i = 0.08979719  # (i) Inclination of the moon's orbit to the ecliptic
 ω = radians(23.452)  # Inclination of the Earth's equator to the ecliptic
 origin_date = datetime(1899, 12, 31, 12, 00, 00)  # Noon Dec 31, 1899
@@ -98,8 +98,7 @@ def calculate_julian_century(dates: Union[np.ndarray, pd.DatetimeIndex]):
     if isinstance(dates, np.ndarray):
         delta = dates - origin_date
         days = np.array([x.days + x.seconds / 3600. / 24. for x in delta])
-        t0 = np.array([x.hour + x.minute / 60. + x.second / 3600. for x in
-                       dates])
+        t0 = np.array([x.hour + x.minute / 60. + x.second / 3600. for x in dates])
         return days / 36525, t0
     elif isinstance(dates, pd.DatetimeIndex):
         delta = dates - origin_date
@@ -298,7 +297,7 @@ def solve_point_corr(lat: float, lon: float, alt: float, t0=datetime.utcnow(), n
         Number of data points to generate
     increment : String
         Increment between data points, uses Pandas offset aliases:
-        http://pandas.pydata.org/pandas-docs/stable/timeseries.html#offset-aliases
+        https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Timedelta.html#pandas.Timedelta
         Common options:
             H : Hourly Frequency
             T, min : Minutely frequency
@@ -320,7 +319,7 @@ def solve_point_corr(lat: float, lon: float, alt: float, t0=datetime.utcnow(), n
 
     """
     df = pd.DataFrame(data={'lat': np.repeat(lat, n), 'lon': np.repeat(lon, n), 'alt': np.repeat(alt, n)},
-                      index=pd.DatetimeIndex(start=t0, freq=increment, periods=n))
+                      index=pd.date_range(start=t0, freq=increment, periods=n))
 
     gm, gs, g0 = solve_longman_tide(df.lat, df.lon, df.alt, df.index)
     df['gm'] = gm
